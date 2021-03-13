@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; //api bağlanmak için kullanılan import
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/models/product';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -19,15 +20,30 @@ export class ProductComponent implements OnInit {
   //   success:true
   // }
   //productResponseModel:ProductResponseModel={};
-  constructor(private productService:ProductService) {} //httpclient türünde bi nesne istiyorumm anlamına geliyor
+  constructor(private productService:ProductService, 
+    private activateRoute:ActivatedRoute) {} //httpclient türünde bi nesne istiyorumm anlamına geliyor
 
   ngOnInit(): void {
-    this.getProducts();
+    this.activateRoute.params.subscribe(params=>{
+      if(params["categoryId"]){
+        this.getProductsByCategory(params["categoryId"])
+      }else{
+        this.getProducts()
+      }
+    })
   }
   getProducts() {
     this.productService.getProducts().subscribe(response=>{
       this.products = response.data;
       this.dataLoaded=true;
     });
+
+  }
+  getProductsByCategory(categoryId:number) {
+    this.productService.getProductsByCategory(categoryId).subscribe(response=>{
+      this.products = response.data;
+      this.dataLoaded=true;
+    });
+
   }
 }
