@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 //import { Product } from 'src/app/models/Product';
 import { HttpClient } from '@angular/common/http'; //api bağlanmak için kullanılan import
-import { ProductResponseModel } from 'src/app/models/productResponseModel';
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/models/product';
 
